@@ -7,7 +7,7 @@ from webapp.model import db, News
 def get_html(url):
     try:
         result = requests.get(url)
-        result.raise_for_status()
+        result.raise_for_status()       # returns an HTTPError object if an error has occurred during the process
         return result.text
     except(requests.RequestException, ValueError):
         print("Сетевая ошибка")
