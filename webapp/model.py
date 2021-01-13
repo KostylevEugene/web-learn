@@ -13,7 +13,7 @@ class News(db.Model):
     def __repr__(self):
         return '<News {} {}>'.format(self.title, self.url)
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), index=True, unique=True)
     password = db.Column(db.String(128))

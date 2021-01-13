@@ -1,10 +1,10 @@
 # __init__ назван так для того, чтобы при импорте проекта (webapp) в другой данный файл выполнится автоматически
 
 from flask import Flask, render_template, flash, redirect, url_for
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, current_user, logout_user
 
 from webapp.forms import LoginForm
-from webapp.model import db, News
+from webapp.model import db, News, User
 from webapp.weather import weather_by_city
 
 def create_app():
@@ -30,6 +30,8 @@ def create_app():
 
     @app.route('/login')
     def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
         title = "Авторизация"
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
@@ -46,6 +48,7 @@ def create_app():
                     
         flash('Не правильное имя или пароль')
         return redirect(url_for('login'))
+
     @app.route('/logout')
     def logout():
         logout_user()
